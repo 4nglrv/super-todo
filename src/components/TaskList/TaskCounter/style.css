@@ -1,0 +1,31 @@
+.task-counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.task-counter__left, .task-counter__right {
+  font-weight: bold;
+}
+
+.task-counter__left {
+  color: var(--blue);
+}
+
+.task-counter__right {
+  color: var(--purple);
+}
+
+.task-amount {
+  color: var(--gray-200);
+  background: var(--gray-400);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-left: 8px;
+}

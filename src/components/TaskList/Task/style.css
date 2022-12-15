@@ -1,0 +1,121 @@
+.task {
+  display: flex;
+  align-items: center;
+  color: var(--gray-100);
+  background: var(--gray-500);
+  border-radius: 8px;
+  border: 1px solid var(--gray-400);
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: transform 0.26s ease-in-out;
+}
+
+.task.task-completed .task-text,
+.task.task-completed .task-text__input {
+  color: var(--gray-300);
+  text-decoration-line: line-through;
+}
+
+.task-text {
+  cursor: pointer;
+  margin-left: 12px;
+  width: 100%;
+}
+
+.task-content {
+  display: flex;
+  width: 100%;
+}
+
+input[type="checkbox"] {
+  border: 0.15em solid var(--blue);
+  border-radius: 100%;
+  cursor: pointer;
+  display: inline-flex;
+  height: 17px;
+  width: 17px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--purple-dark);
+  border: 0.15em solid var(--purple-dark);
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+input[type="checkbox"]::before {
+  content: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNyIgdmlld0JveD0iMCAwIDEwIDciIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik04LjQzMDU5IDAuMzQyMTIzTDQuMDk4NjUgNC42NzQwNkwxLjYxNjE4IDIuMTkxNTlMMC43ODAyNzMgMy4wMjc1TDQuMDk4NjUgNi4zNDU4N0w5LjI2NjQ5IDEuMTc4MDNMOC40MzA1OSAwLjM0MjEyM1oiIGZpbGw9IiNGMkYyRjIiLz4KPC9zdmc+Cg==');
+  transform: scale(0);
+  transition: 120ms all ease-in-out;
+  display: block;
+  text-align: center;
+  position: absolute;
+  bottom: -1px;
+}
+
+.task-buttons {
+  display: inline-flex;
+  margin-left: auto;
+  margin-bottom: auto;
+}
+
+.task-btn {
+  cursor: pointer;
+  transition: all .22s ease-in-out;
+  position: relative;
+}
+
+.task-edit {
+  stroke: var(--gray-300);
+  fill: none;
+  transition: all .22s ease-in-out;
+}
+
+.check-icon {
+  fill: var(--gray-300);
+  transition: all .22s ease-in-out;
+}
+
+.check-icon:hover {
+  fill: #159038 
+}
+
+.task-remove {
+  fill: var(--gray-300)
+}
+
+.task-edit:hover {
+  stroke: var(--purple-dark)
+}
+
+.task-remove:hover {
+  fill: var(--danger)
+}
+
+.task-deleted {
+  transform: scale(0);
+}
+
+.task-text__input {
+  width: 100%;
+}
+
+.task-text__input-container {
+  width: 100%;
+  height: 27.5px;
+}
+
+.update-todo-rolling {
+  width: 24px;
+  height: 17px;
+  margin-bottom: 6px;
+}
+
+.update-todo-rolling > circle {
+  stroke: var(--gray-300)
+}

@@ -1,0 +1,67 @@
+button {
+  all: unset;
+}
+
+.custom-button {
+  background: var(--blue-dark);
+  color: var(--gray-100);
+  transition: var(--ui-transition);
+  cursor: pointer;
+  padding: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.custom-button-content, .custom-button-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.custom-button-content svg {
+  margin-left: 8px;
+  fill: var(--gray-100);
+}
+
+.custom-button:hover {
+  background: var(--blue);
+}
+
+.custom-button:active {
+  transform: scale(0.96);
+}
+
+.custom-button:disabled,
+.custom-button[disabled],
+.custom-button:disabled > .custom-button-content svg,
+.custom-button:disabled and .custom-button:active{
+  background-color: var(--gray-400);
+  color: var(--gray-300);
+  fill: var(--gray-300);
+  cursor: not-allowed;
+  transform: scale(1);
+}
+
+.custom-button-content.loading {
+  opacity: 0;
+}
+
+.rolling-btn {
+  width: 20px;
+  height: 20px;
+  margin-left: 0 !important;
+  opacity: 0;
+  transition: opacity 0.11s ease;
+  position: absolute;
+  left: calc(50% - 10px);
+  fill: none;
+}
+
+.rolling-btn > circle {
+  stroke: #d9d9d9;
+}
+
+.rolling-btn.active {
+  opacity: 1;
+}

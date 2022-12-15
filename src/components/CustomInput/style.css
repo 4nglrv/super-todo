@@ -1,0 +1,20 @@
+input {
+  all: unset;
+}
+
+.custom-input[type="text"] {
+  background-color: var(--gray-500);
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid var(--gray-700);
+  color: var(--gray-100);
+  transition: var(--ui-transition);
+}
+
+.custom-input[type="text"]:hover, .custom-input[type="text"]:focus {
+  border: 1px solid var(--purple-dark);
+} 
+
+.custom-input::placeholder {
+  color: var(--gray-300);
+}
