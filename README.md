@@ -16,6 +16,4 @@
 Схема БД (oпыт проектирования баз данных 10 лет [пишите](https://t.me/ckofkwkfoflowp) если нужен проектировщик уровня сеньйор)
 
 ## Figma
-В качестве макета использовал диз от супер чела [Matheus Susko](https://www.behance.net/comingtrolls)
-
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2F4C2WCWZaTWNOJVCH8o6YRu%2FToDo-List-%25F0%259F%2591%2585-(Community)%3Ft%3DrvGm3O5x30HmEt31-1" allowfullscreen></iframe>
+В качестве макета использовал [диз](https://www.figma.com/file/4C2WCWZaTWNOJVCH8o6YRu/ToDo-List-%F0%9F%91%85-(Community)?t=rvGm3O5x30HmEt31-1) от супер чела [Matheus Susko](https://www.behance.net/comingtrolls)
