@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '../../../redux/mockApi'
 import Rolling from '../../Rolling'
 import './style.css'
@@ -7,6 +7,7 @@ function Task(props) {
   const [deleteTodo] = useDeleteTodoMutation()
   const [updateTodo, { isLoading }] = useUpdateTodoMutation()
 
+  const inputRef = useRef()
   const [isCompleted, setIsCompleted] = useState(props.data.isCompleted)
   const [isDeleted, setIsDeleted] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -31,6 +32,12 @@ function Task(props) {
     setIsEnter(true)
     setIsEdit(!isEdit)
   }
+
+  useEffect(() => {
+    if (isEdit) {
+      inputRef.current.focus()
+    }
+  }, [isEdit, inputRef])
 
   function CheckIcon() {
     if (isLoading) return <Rolling className="update-todo-rolling" />
@@ -97,7 +104,17 @@ function Task(props) {
 
       {
         isEdit
-          ? <div className="task-text__input-container"><input disabled={!isEnter} htmlFor={props.data.id} className="task-text__input" type="text" value={todoText} onChange={(e) => setTodoText(e.target.value)} /></div>
+          ? <div className="task-text__input-container">
+              <input 
+                disabled={!isEnter} 
+                htmlFor={props.data.id} 
+                className="task-text__input" 
+                type="text" 
+                value={todoText} 
+                onChange={(e) => setTodoText(e.target.value)} 
+                ref={inputRef}
+                />
+            </div>
           : RenderTask()
       }
       {TaskButtons()}
