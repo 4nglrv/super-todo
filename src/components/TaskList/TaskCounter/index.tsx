@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useGetTodosQuery } from '../../../redux'
 import './style.css'
 
-function TaskCounter() {
+export default function TaskCounter() {
   const { data = [], isLoading } = useGetTodosQuery()
   const [completedCount, setCompletedCount] = useState(0)
 
@@ -34,5 +34,3 @@ function TaskCounter() {
     </div>
   )
 }
-
-export default TaskCounter

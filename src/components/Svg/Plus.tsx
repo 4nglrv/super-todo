@@ -1,8 +1,4 @@
-import React from 'react'
-import Rolling from '../Rolling'
-import './style.css'
-
-function plusIcon() {
+export default function PlusIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_2102_11)">
@@ -17,32 +13,3 @@ function plusIcon() {
     </svg>
   )
 }
-
-function Icon(icon) {
-  switch (icon) {
-    case 'plus':
-      return plusIcon()
-
-    default: return null
-  }
-}
-
-function CustomButton({ children, ...props }) {
-  return (
-    <button
-      onClick={props.onClick}
-      className={`custom-button ${props.className}`}
-      disabled={props.isLoading || props.isDisabled}
-    >
-      <div className='custom-button-container'>
-        <div className={`custom-button-content ${props.isLoading ? 'loading' : ''}`}>
-          {children}
-          {props.icon ? Icon(props.icon) : null}
-        </div>
-        { props.isLoading ? <Rolling className="rolling-btn active" /> : null }
-      </div>
-    </button>
-  )
-}
-
-export default CustomButton

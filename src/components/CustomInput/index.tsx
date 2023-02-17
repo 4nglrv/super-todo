@@ -1,9 +1,9 @@
-import React from 'react'
+import { InputHTMLAttributes } from 'react';
 import './style.css'
 
-function CustomInput(props) {
+function CustomInput(props: InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <input 
+    <input
       {...props}
       type="text"
       className={`custom-input ${props.className}`}

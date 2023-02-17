@@ -1,7 +1,10 @@
-import React from 'react'
 import './style.css'
 
-function Rolling(props) {
+interface Props {
+  className: string
+}
+
+export default function RollingIcon(props: Props) {
   return (
     <svg className={`rolling ${props.className}`} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
       <circle cx="50" cy="50" strokeWidth="10" r="35" strokeDasharray="164.93361431346415 56.97787143782138">
@@ -10,5 +13,3 @@ function Rolling(props) {
     </svg>
   )
 }
-
-export default Rolling

@@ -1,2 +1,2 @@
 export * from './mockApi'
-export * from './store.js'
+export * from './store'

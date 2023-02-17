@@ -1,6 +1,6 @@
 import React from 'react'
 import './style.css'
-import Loader from '../Loader'
+import LoaderIcon from '../Svg/Loader'
 import Task from './Task'
 import TaskCounter from './TaskCounter'
 import { useGetTodosQuery } from '../../redux'
@@ -19,7 +19,7 @@ function RenderTaskMessage() {
   )
 }
 
-function TaskList() {
+export default function TaskList() {
   const { data = [], isLoading } = useGetTodosQuery()
 
   function renderTasks() {
@@ -34,11 +34,9 @@ function TaskList() {
       <TaskCounter />
       <div className="tasks">
         {
-          isLoading ? <Loader /> : renderTasks()
+          isLoading ? <LoaderIcon /> : renderTasks()
         }
       </div>
     </div>
   )
 }
-
-export default TaskList

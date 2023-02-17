@@ -6,7 +6,7 @@ import { useAddTodoMutation } from '../../redux'
 
 function CreateTodo() {
   const [addTodo, { isLoading }] = useAddTodoMutation()
-  const [text, setText] = useState('')
+  const [text, setText] = useState<string>('')
 
   const handleAddTodo = async () => {
     if (text.length === 0 || text.length <= 3) 

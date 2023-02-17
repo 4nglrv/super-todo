@@ -1,7 +1,6 @@
-import React from 'react'
 import './style.css'
 
-function Loader() {
+export default function LoaderIcon() {
   return (
     <svg className="loader" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
       <circle cx="50" cy="50" r="0" fill="none" stroke="#8284fa" strokeWidth="2">
@@ -15,5 +14,3 @@ function Loader() {
     </svg>
   )
 }
-
-export default Loader
