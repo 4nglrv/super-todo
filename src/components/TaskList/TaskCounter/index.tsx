@@ -4,7 +4,7 @@ import './style.css'
 
 export default function TaskCounter() {
   const { data = [], isLoading } = useGetTodosQuery()
-  const [completedCount, setCompletedCount] = useState(0)
+  const [completedCount, setCompletedCount] = useState<number>(0)
 
   useEffect(() => {
     let count = 0

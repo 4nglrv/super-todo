@@ -15,7 +15,7 @@ export default function Task(props: Props) {
   const [deleteTodo] = useDeleteTodoMutation()
   const [updateTodo, { isLoading }] = useUpdateTodoMutation()
 
-  const inputRef = useRef<HTMLInputElement>()
+  const inputRef = useRef<HTMLInputElement>(null)
   const [isCompleted, setIsCompleted] = useState<boolean>(props.data.isCompleted)
   const [isDeleted, setIsDeleted] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState<boolean>(false)
@@ -42,7 +42,7 @@ export default function Task(props: Props) {
   }
 
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit && inputRef.current !== null) {
       inputRef.current.focus()
     }
   }, [isEdit, inputRef])

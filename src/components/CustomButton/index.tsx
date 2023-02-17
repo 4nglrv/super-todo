@@ -3,7 +3,7 @@ import RollingIcon from '../Svg/Rolling'
 import PlusIcon from '../Svg/Plus'
 import './style.css'
 
-function Icon(icon) {
+function Icon(icon: 'plus') {
   switch (icon) {
     case 'plus':
       return <PlusIcon/>
@@ -12,7 +12,16 @@ function Icon(icon) {
   }
 }
 
-export default function CustomButton({ children, ...props }) {
+interface Props {
+  onClick?: () => void,
+  className?: string,
+  isLoading?: boolean,
+  isDisabled?: boolean,
+  icon?: 'plus',
+  children?: React.ReactNode
+}
+
+export default function CustomButton({ children, ...props }: Props) {
   return (
     <button
       onClick={props.onClick}
