@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
 import './style.css'
+import { useState } from 'react'
 import CustomButton from '../CustomButton'
-import CustomInput from '../CustomInput'
+import CustomTextArea from '../CustomTextArea'
 import { useAddTodoMutation } from '../../redux'
 
 function CreateTodo() {
@@ -18,20 +18,23 @@ function CreateTodo() {
 
   return (
     <div className="create-todo">
-      <CustomInput
+      <CustomTextArea
         placeholder="Добавить новую задачу"
         className="create-todo__input"
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <CustomButton 
-        className="create-todo__button"
-        icon="plus"
-        onClick={() => handleAddTodo()}
-        isLoading={isLoading}
-      >
-        Создать
-      </CustomButton>
+      <div className="create-todo__button-wrapper">
+        <CustomButton 
+          className="create-todo__button"
+          icon="plus"
+          onClick={() => handleAddTodo()}
+          isLoading={isLoading}
+        >
+          Создать
+        </CustomButton>
+      </div>
+
       
     </div>
   )

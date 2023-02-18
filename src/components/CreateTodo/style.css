@@ -4,6 +4,19 @@
 }
 
 .create-todo__input {
-  width: 100%;
+  width: 80%;
   margin-right: 8px;
+}
+
+.create-todo__input {
+  width: 85%;
+  margin-right: 8px;
+}
+
+.create-todo__button {
+  height: 25px;
+}
+
+.create-todo__button-wrapper {
+  margin-left: auto;
 }

@@ -8,7 +8,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 0 calc(50% - 364px);
+  padding: 10vw;
   margin: 0 8px;
 }
 
@@ -41,10 +41,19 @@ header {
 }
 
 .header-bg {
-  height: 200px;
+  height: 20vh;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   background: var(--gray-700);
+}
+
+@media screen and (max-width: 1920px) {
+  .container {
+    padding: 0 calc(50% - 720px);
+  }
+  .header-bg {
+    height: 200px;
+  }
 }

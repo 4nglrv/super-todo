@@ -1,7 +1,6 @@
-import React from 'react'
+import './style.css'
 import RollingIcon from '../Svg/Rolling'
 import PlusIcon from '../Svg/Plus'
-import './style.css'
 
 function Icon(icon: 'plus') {
   switch (icon) {

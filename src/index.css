@@ -1,5 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-300) var(--purple);
+}
+
+/* Chrome */
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background: var(--gray-600);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--gray-600);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--purple);
+  border-radius: 8px;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: var(--gray-300);
+}
+
 * {
 	padding: 0;
 	margin: 0;
@@ -20,7 +46,7 @@
 	--gray-200: #d9d9d9;
 	--gray-100: #f2f2f2;
 	--danger: #e25858;
-	--ui-transition: all 0.09s ease;
+	--ui-transition: border 0.09s ease;
 }
 
 html, body {
@@ -29,4 +55,8 @@ html, body {
 
 html {
   background: var(--gray-600);
+}
+
+input, button, textarea {
+  all: unset;
 }

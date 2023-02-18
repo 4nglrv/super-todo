@@ -1,0 +1,18 @@
+.task-text > p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.task-text > img {
+  max-width: 320px;
+  width: 100%;
+  object-fit: contain;
+  float: right;
+}
+
+@media screen and (max-width: 767px) {
+  .task-text > img {
+    max-width: 220px;
+    float: none;
+  }
+}

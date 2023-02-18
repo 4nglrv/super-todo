@@ -1,17 +1,22 @@
-
-.custom-input[type="text"] {
+textarea.custom-input {
   background-color: var(--gray-500);
   border-radius: 8px;
   padding: 16px;
   border: 1px solid var(--gray-700);
   color: var(--gray-100);
   transition: var(--ui-transition);
+  resize: vertical;
+  min-height: 25px;
+  height: 25px;
+  max-height: 500px;
+  display: inline-block;
+  width: 100%;
 }
 
-.custom-input[type="text"]:hover, .custom-input[type="text"]:focus {
+textarea.custom-input:hover, textarea.custom-input:focus {
   border: 1px solid var(--purple-dark);
 } 
 
-.custom-input::placeholder {
+textarea.custom-input::placeholder {
   color: var(--gray-300);
 }

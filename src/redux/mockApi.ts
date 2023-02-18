@@ -5,7 +5,7 @@ import { ITodoInvalidResponse, ITodoResponse } from '../types/store/mockApi'
 
 export const mockApi = createApi({
   reducerPath: 'mockApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://63984cf0fe03352a94cbbf36.mockapi.io/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://63ef7176271439b7fe6e865d.mockapi.io/api/' }),
   tagTypes: ['Todos'],
   endpoints: (build) => ({
     getTodos: build.query<ITodoResponse[], void>({

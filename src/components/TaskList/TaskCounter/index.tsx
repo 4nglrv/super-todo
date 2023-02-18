@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useGetTodosQuery } from '../../../redux'
 import './style.css'
+import { useEffect, useState } from 'react'
+import { useGetTodosQuery } from '../../../redux'
 
 export default function TaskCounter() {
-  const { data = [], isLoading } = useGetTodosQuery()
+  const { data = [] } = useGetTodosQuery()
   const [completedCount, setCompletedCount] = useState<number>(0)
 
   useEffect(() => {

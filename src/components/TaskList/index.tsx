@@ -1,4 +1,3 @@
-import React from 'react'
 import './style.css'
 import LoaderIcon from '../Svg/Loader'
 import Task from './Task'
@@ -19,6 +18,8 @@ function RenderTaskMessage() {
   )
 }
 
+console.log('rerender list')
+
 export default function TaskList() {
   const { data = [], isLoading } = useGetTodosQuery()
 
@@ -29,10 +30,21 @@ export default function TaskList() {
     })
   }
 
+  function stop(ev: Event) {
+    ev.stopPropagation();
+    ev.preventDefault();
+  }
+
   return (
-    <div className="task-list">
+    <div 
+      className="task-list" 
+      onDragOver={() => stop}
+    >
       <TaskCounter />
-      <div className="tasks">
+      <div 
+        id="tasks" 
+        className="tasks"
+      >
         {
           isLoading ? <LoaderIcon /> : renderTasks()
         }

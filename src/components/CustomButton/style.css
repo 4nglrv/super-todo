@@ -1,7 +1,3 @@
-button {
-  all: unset;
-}
-
 .custom-button {
   background: var(--blue-dark);
   color: var(--gray-100);

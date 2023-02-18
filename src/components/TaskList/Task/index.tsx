@@ -1,108 +1,127 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useDeleteTodoMutation, useUpdateTodoMutation } from '../../../redux/mockApi'
-import RollingIcon from '../../Svg/Rolling'
-import Remove from '../../Svg/Remove'
-import TaskIcon from '../../Svg/Task'
-import CheckIcon from '../../Svg/Check'
 import './style.css'
+import './task-text.css'
+import { DragEvent, SyntheticEvent, useCallback, useRef, useState } from 'react'
 import { ITodoResponse } from '../../../types/store/mockApi'
+import TaskItem from './Item'
+import classNames from 'classnames'
+import { useUpdateTodoMutation } from '../../../redux'
 
 type Props = {
-  data: ITodoResponse
+	data: ITodoResponse
+}
+
+interface IItitialPos {
+  x: number,
+  y: number,
+  x1: number,
+  y1: number
 }
 
 export default function Task(props: Props) {
-  const [deleteTodo] = useDeleteTodoMutation()
-  const [updateTodo, { isLoading }] = useUpdateTodoMutation()
-
-  const inputRef = useRef<HTMLInputElement>(null)
+	// const [initialSize, setInitialSize] = useState<{
+	// 	width: number
+	// 	height: number
+	// }>({
+	// 	width: 300,
+	// 	height: 300,
+	// })
+  const maxBlockPosX = 5000
+  const maxBlockPosY = 5000
+	const [initialPos, setInitialPos] = useState<IItitialPos>({
+		x: props.data.x > maxBlockPosX ? props.data.x / 100 : props.data.x,
+		y: props.data.y > maxBlockPosY ? props.data.y / 1000 : props.data.y,
+    x1: 0,
+    y1: 0
+	})
+  const [updateTodo] = useUpdateTodoMutation()
   const [isCompleted, setIsCompleted] = useState<boolean>(props.data.isCompleted)
   const [isDeleted, setIsDeleted] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [todoText, setTodoText] = useState<string>(props.data.text)
-  const [isEnter, setIsEnter] = useState<boolean>(true)
+  const [isDrag, setIsDrag] = useState<boolean>(false)
+  const taskListBlock = document.getElementById('tasks') as HTMLDivElement
+  const initialPosRef = useRef<IItitialPos>();
 
-  const handleDeleteTodo = async () => {
-    setIsDeleted(true)
-    await deleteTodo(props.data.id).unwrap()
+  initialPosRef.current = initialPos
+  
+  const onChangeCompleteHandler = (val: boolean) => {
+    setIsCompleted(val)
+  } 
+
+  const onChangeDeleteHandler = (val: boolean) => {
+    setIsDeleted(val)
   }
 
-  const handleSetCompleted = async () => {
-    setIsCompleted(!isCompleted)
-    await updateTodo({ id: props.data.id, isCompleted: !isCompleted }).unwrap()
+  const onChangeEditHandler = (val: boolean) => {
+    setIsEdit(val)
   }
 
-  const handleEditTodo = async () => {
-    setIsEnter(false)
-    if (isEdit) {
-      await updateTodo({id: props.data.id, text: todoText}).unwrap()
-    }
-    setIsEnter(true)
-    setIsEdit(!isEdit)
-  }
-
-  useEffect(() => {
-    if (isEdit && inputRef.current !== null) {
-      inputRef.current.focus()
-    }
-  }, [isEdit, inputRef])
-
-  function RenderCheck() {
-    if (isLoading) return <RollingIcon className="update-todo-rolling" />
-    return <CheckIcon />
-  }
-
-  function IsEdit() {
-    if (!isEdit) return <TaskIcon />
-    return RenderCheck()
-  }
-
-  function TaskButtons() {
-    return (
-      <div className="task-buttons">
-        <button onClick={() => handleEditTodo()} className="task-btn">
-          { IsEdit() }
-        </button>
-
-        <button className="task-btn task-remove" onClick={() => handleDeleteTodo()}>
-          <Remove />
-        </button>
-      </div>
-    )
-  }
-
-  function RenderTask() {
-    return (
-      <div className="task-content" onChange={() => handleSetCompleted()}>
-        <div>
-          <input type="checkbox" defaultChecked={isCompleted} id={props.data.id} name={props.data.id} />
-        </div>
-        <label className="task-text" htmlFor={props.data.id}>
-          {todoText}
-        </label>
-      </div>
-    )
-  }
-
-  return (
-    <div className={`task ${isCompleted ? "task-completed" : ""} ${isDeleted ? "task-deleted" : ""}`}>
-
-      {
-        isEdit
-          ? <div className="task-text__input-container">
-              <input 
-                disabled={!isEnter}
-                className="task-text__input" 
-                type="text" 
-                value={todoText} 
-                onChange={(e) => setTodoText(e.target.value)} 
-                ref={inputRef}
-                />
-            </div>
-          : RenderTask()
+  const dragTask = useCallback((ev: MouseEvent) => {
+    if (initialPosRef.current === undefined) return
+    let currPosX = 0
+    let currPosY = 0
+    const mouseInBlockPosX = Math.ceil(ev.clientX + taskListBlock.scrollLeft - initialPosRef.current.x1 - taskListBlock.offsetLeft)
+    const mouseInBlockPosY = Math.ceil(ev.clientY + taskListBlock.scrollTop - initialPosRef.current.y1 - taskListBlock.offsetTop)
+    const isEdgeBlockX = mouseInBlockPosX < 0 || mouseInBlockPosX > maxBlockPosX + 10
+    const isEdgeBlockY = mouseInBlockPosY < 0 || mouseInBlockPosY > maxBlockPosY + 10
+    // If user drag to edge block
+    if (isEdgeBlockX || isEdgeBlockY 
+      || initialPosRef.current.x1 <= 0 
+      || initialPosRef.current.y1 <= 0) {
+        onMouseUpHandler()
       }
-      {TaskButtons()}
+    currPosX = mouseInBlockPosX < 0 ? 0 : mouseInBlockPosX > maxBlockPosX ? maxBlockPosX : mouseInBlockPosX
+    currPosY = mouseInBlockPosY < 0 ? 0 : mouseInBlockPosY > maxBlockPosX ? maxBlockPosX : mouseInBlockPosY
+    setInitialPos((prev) => ({...prev, x: currPosX, y: currPosY }))
+  }, [])
+    
 
-    </div>
-  )
+	const onDownMouseHandler = (ev: SyntheticEvent<HTMLDivElement, MouseEvent>) => {
+    const posX = ev.nativeEvent.offsetX
+		const posY = ev.nativeEvent.offsetY
+		setInitialPos((prev) => ({ ...prev, x1: posX, y1: posY }))
+    taskListBlock.addEventListener('mousemove', dragTask)
+    setIsDrag(true)
+    console.log('ondown (add ev): ', posX, posY)
+  }
+
+	const onMouseUpHandler = (ev?: SyntheticEvent<HTMLDivElement>) => {
+    taskListBlock.removeEventListener('mousemove', dragTask)
+    setIsDrag(false)
+    updateTodo({ id: props.data.id, x: initialPos.x, y: initialPos.y })
+    console.log('onup (remove ev)')
+  }
+
+	function resizeHandler(ev: DragEvent) {
+		console.log(ev)
+	}
+
+	return (
+		<div
+			className={classNames('task', {
+        'task-completed': isCompleted && !isEdit,
+        'task-deleted': isDeleted,
+        'is-dragging': isDrag,
+      })}
+			style={{
+				top: `${initialPosRef.current.y}px`,
+				left: `${initialPosRef.current.x}px`,
+			}}
+      onMouseUp={(ev) => onMouseUpHandler(ev)}
+		>
+			<div
+        id='task__draggable-block'
+				className='task__draggable-block'
+        onMouseDown={(ev) => onDownMouseHandler(ev)}
+			/>
+			<div className="task__wrapper">
+				<TaskItem 
+          onChangeComplete={(val) => onChangeCompleteHandler(val)}
+          onChangeDelete={(val) => onChangeDeleteHandler(val)}
+          onChangeEdit={(val) => onChangeEditHandler(val)}
+          data={props.data}
+        />
+			</div>
+			<div draggable='true' className='task__resize-block' onDrag={(ev) => resizeHandler(ev)} />
+		</div>
+	)
 }

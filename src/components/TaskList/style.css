@@ -5,7 +5,11 @@
 .tasks {
   margin-top: 2.44%;
   border-radius: 8px 8px 0 0;
-  border-top: 1px solid var(--gray-400)
+  border: 1px solid var(--gray-400);
+  position: relative;
+  overflow: hidden;
+  max-height: 2000px;
+  display: block;
 }
 
 .create-task-message {
@@ -32,7 +36,6 @@
 .tasks {
   overflow: auto;
   height: 55vh;
-  overflow-x: hidden;
   
   /* Works on Firefox */
   scrollbar-width: thin;
@@ -41,7 +44,12 @@
 
 .tasks::-webkit-scrollbar {
   width: 7px;
+  height: 7px;
   background: var(--gray-600);
+}
+
+.tasks::-webkit-scrollbar-corner {
+  background: rgba(0,0,0,0);
 }
 
 .tasks::-webkit-scrollbar-track {
@@ -49,9 +57,10 @@
 }
 
 .tasks::-webkit-scrollbar-thumb {
-  background-color: var(--gray-300);
+  background-color: var(--purple);
+  border-radius: 8px;
 }
 
-.tasks::-webkit-scrollbar-thumb:hover {
+.tasks::-webkit-scrollbar-thumb:active {
   background-color: var(--gray-300);
 }
