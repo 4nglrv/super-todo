@@ -7,7 +7,6 @@ import { useCallback } from 'react'
 import { ITodoResponse } from '../../types/store/mockApi'
 
 const TaskList = () => {
-	console.log('rerender list')
 	const { data = [], isLoading } = useGetTodosQuery()
 
 	const RenderTaskMessage = useCallback(() => {

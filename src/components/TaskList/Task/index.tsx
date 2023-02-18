@@ -1,6 +1,6 @@
 import './style.css'
 import './task-text.css'
-import { DragEvent, SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { DragEvent, memo, SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { ITodoResponse } from '../../../types/store/mockApi'
 import TaskItem from './Item'
 import classNames from 'classnames'
@@ -18,7 +18,7 @@ interface IItitialPos {
 	y1: number
 }
 
-export default function Task(props: Props) {
+export default memo(function Task(props: Props) {
 	// const [initialSize, setInitialSize] = useState<{
 	// 	width: number
 	// 	height: number
@@ -50,21 +50,21 @@ export default function Task(props: Props) {
     }
   }, [])
 
-	const onChangeCompleteHandler = useCallback((val: boolean) => {
+	const onChangeCompleteHandler = (val: boolean) => {
 		setIsCompleted(val)
-	}, [])
+	}
 
-	const onChangeDeleteHandler = useCallback((val: boolean) => {
+	const onChangeDeleteHandler = (val: boolean) => {
 		setIsDeleted(val)
-	}, [])
+	}
 
-	const onChangeEditHandler = useCallback((val: boolean) => {
+	const onChangeEditHandler = (val: boolean) => {
 		setIsEdit(val)
-	}, [])
+	}
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const dragTask = useCallback(throttle((ev: MouseEvent & TouchEvent) => {
-		if (initialPosRef.current === undefined) return
+		if (initialPosRef.current === undefined || taskListBlock === undefined) return
 		let currPosX = 0
 		let currPosY = 0
     const currClientX = ev.clientX || ev.targetTouches[0].clientX
@@ -88,10 +88,21 @@ export default function Task(props: Props) {
 	}, 25), [])
 
 	const onStartDragHandler = (ev: SyntheticEvent<HTMLDivElement, MouseEvent & TouchEvent>) => {
-    let target = ev.target as HTMLDivElement
-    const rect = target.getBoundingClientRect()
-		const posX = ev.nativeEvent.offsetX || ev.nativeEvent.targetTouches[0].clientX - rect.left
-		const posY = ev.nativeEvent.offsetY || ev.nativeEvent.targetTouches[0].clientY - rect.top
+    if (taskListBlock === undefined) return
+    let posX: number = 0
+    let posY: number = 0
+    if (event === 'mousemove') {
+      posX = ev?.nativeEvent?.offsetX
+      posY = ev?.nativeEvent?.offsetY 
+    }
+
+    if (event === "touchmove") {
+      let target = ev.target as HTMLDivElement
+      const rect = target.getBoundingClientRect()
+      posX = ev?.nativeEvent?.targetTouches[0]?.clientX - rect.left
+      posY = ev?.nativeEvent?.targetTouches[0]?.clientY - rect.top
+    }
+
 		setInitialPos((prev) => ({ ...prev, x1: posX, y1: posY }))
 		taskListBlock.addEventListener(event, dragTask)
 		setIsDrag(true)
@@ -99,6 +110,7 @@ export default function Task(props: Props) {
 	}
 
 	const onEndDragHandler = (ev?: SyntheticEvent<HTMLDivElement>) => {
+    if (taskListBlock === undefined) return
 		taskListBlock.removeEventListener(event, dragTask)
 		setIsDrag(false)
 		console.log('onup (remove ev): ', event)
@@ -106,7 +118,11 @@ export default function Task(props: Props) {
 		updateTodo({ id: props.data.id, x: initialPos.x, y: initialPos.y })
 	}
 
-	function resizeHandler(ev: DragEvent) {
+	function onResizeHandler(ev: DragEvent) {
+		console.log(ev)
+	}	
+  
+  function onEndResizeHandler(ev: DragEvent) {
 		console.log(ev)
 	}
 
@@ -122,13 +138,13 @@ export default function Task(props: Props) {
 				top: `${initialPosRef.current.y}px`,
 				left: `${initialPosRef.current.x}px`,
 			}}
-      onTouchEnd={() => onEndDragHandler()}
+      // onTouchEnd={() => onEndDragHandler()}
 			onMouseUp={() => onEndDragHandler()}
 		>
 			<div
 				id='task__draggable-block'
 				className='task__draggable-block'
-        onTouchStart={(ev) => onStartDragHandler(ev as any)}
+        // onTouchStart={(ev) => onStartDragHandler(ev as any)}
         onMouseDown={(ev) => onStartDragHandler(ev as any)}
 			/>
 			<div className='task__wrapper'>
@@ -139,7 +155,11 @@ export default function Task(props: Props) {
 					data={props.data}
 				/>
 			</div>
-			<div draggable='true' className='task__resize-block' onDrag={(ev) => resizeHandler(ev)} />
+			<div 
+        className='task__resize-block' 
+        onDrag={(ev) => onResizeHandler(ev)} 
+        onDragEnd={(ev) => onEndResizeHandler(ev)}
+      />
 		</div>
 	)
-}
+}) 
