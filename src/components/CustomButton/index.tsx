@@ -1,12 +1,12 @@
 import './style.css'
 import RollingIcon from '../Svg/Rolling'
 import PlusIcon from '../Svg/Plus'
+import classNames from 'classnames'
 
 function Icon(icon: 'plus') {
   switch (icon) {
     case 'plus':
       return <PlusIcon/>
-
     default: return null
   }
 }
@@ -28,7 +28,9 @@ export default function CustomButton({ children, ...props }: Props) {
       disabled={props.isLoading || props.isDisabled}
     >
       <div className='custom-button-container'>
-        <div className={`custom-button-content ${props.isLoading ? 'loading' : ''}`}>
+        <div className={classNames('custom-button-content', {
+          'loading': props.isLoading
+        })}>
           {children}
           {props.icon ? Icon(props.icon) : null}
         </div>

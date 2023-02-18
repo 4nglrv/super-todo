@@ -7,6 +7,8 @@ export interface ITodoResponse {
   id: string;
   x: number;
   y: number;
+  width: number;
+  height: number;
 }
 
 export interface ITodoInvalidResponse {

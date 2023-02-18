@@ -4,4 +4,6 @@ export interface IUpdateTodo {
   isCompleted?: boolean;
   x?: number;
   y?: number;
+  width?: number;
+  height?: number;
 }
