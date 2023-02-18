@@ -3,52 +3,43 @@ import LoaderIcon from '../Svg/Loader'
 import Task from './Task'
 import TaskCounter from './TaskCounter'
 import { useGetTodosQuery } from '../../redux'
+import { useCallback } from 'react'
+import { ITodoResponse } from '../../types/store/mockApi'
 
-function RenderTaskMessage() {
-  return (
-    <div className="create-task-message">
-      <img className="clipboard-img" width="56" height="56" src="/assets/Clipboard.png" alt="Clipboard" />
-      <div className="create-task-message__first">
-        У Вас еще нет созданных задач
-      </div>
-      <div className="create-task-message__second">
-        Создавайте задачи и организуйте свои дела
-      </div>
-    </div>
-  )
-}
+const TaskList = () => {
+	console.log('rerender list')
+	const { data = [], isLoading } = useGetTodosQuery()
 
-console.log('rerender list')
+	const RenderTaskMessage = useCallback(() => {
+		return (
+			<div className='create-task-message'>
+				<img className='clipboard-img' width='56' height='56' src='/assets/Clipboard.png' alt='Clipboard' />
+				<div className='create-task-message__first'>У Вас еще нет созданных задач</div>
+				<div className='create-task-message__second'>Создавайте задачи и организуйте свои дела</div>
+			</div>
+		)
+	}, [])
 
-export default function TaskList() {
-  const { data = [], isLoading } = useGetTodosQuery()
-
-  function renderTasks() {
-    if (data.length === 0) return RenderTaskMessage()
-    return data.map(todo => {
-      return <Task key={todo.id} data={todo} />
-    })
+	function renderTasks() {
+		if (data.length === 0) return RenderTaskMessage()
+		return data.map((todo: ITodoResponse) => {
+			return <Task key={todo.id} data={todo} />
+		})
   }
 
-  function stop(ev: Event) {
-    ev.stopPropagation();
-    ev.preventDefault();
-  }
+	function stop(ev: Event) {
+		ev.stopPropagation()
+		ev.preventDefault()
+	}
 
-  return (
-    <div 
-      className="task-list" 
-      onDragOver={() => stop}
-    >
-      <TaskCounter />
-      <div 
-        id="tasks" 
-        className="tasks"
-      >
-        {
-          isLoading ? <LoaderIcon /> : renderTasks()
-        }
-      </div>
-    </div>
-  )
+	return (
+		<div className='task-list' onDragOver={() => stop}>
+			<TaskCounter />
+			<div id='tasks' className='tasks'>
+				{isLoading ? <LoaderIcon /> : renderTasks()}
+			</div>
+		</div>
+	)
 }
+
+export default TaskList

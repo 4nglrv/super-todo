@@ -35,7 +35,7 @@ export default function TaskItem(props: Props) {
 
   const handleEditTodo = async () => {
     if (isLoading) return
-		if (isEdit) {
+		if (isEdit && props.data.text !== todoText) {
 			await updateTodo({ id: props.data.id, text: todoText }).unwrap()
 		}
 		setIsEdit(!isEdit)
@@ -58,11 +58,6 @@ export default function TaskItem(props: Props) {
 		return RenderCheck()
 	}
 
-  function escapeHandler() {
-    setIsEdit(!isEdit)
-    setTodoText(props.data.text)
-  }
-
   function RenderEditTaskContent() {
     return (
       <div className='task-text__input-container'>
@@ -71,7 +66,7 @@ export default function TaskItem(props: Props) {
           className='task-text__input'
           value={todoText}
           onChange={(e) => setTodoText(e.target.value)}
-          onKeyDown={(e) => e.key === 'Escape' ? escapeHandler() : ''} 
+          onKeyDown={(e) => e.key === 'Escape' ? handleEditTodo() : ''} 
           ref={inputRef}
         />
       </div>

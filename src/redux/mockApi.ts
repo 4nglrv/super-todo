@@ -17,7 +17,7 @@ export const mockApi = createApi({
         ]
         : [{ type: 'Todos', id: 'LIST' }],
       transformResponse: (response: ITodoResponse[]) => {
-        return response.reverse()
+        return response
       }
     }),
 
