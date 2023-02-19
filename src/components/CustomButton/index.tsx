@@ -14,8 +14,8 @@ function Icon(icon: 'plus') {
 interface Props {
   onClick?: () => void,
   className?: string,
-  isLoading?: boolean,
-  isDisabled?: boolean,
+  isloading?: any,
+  isdisabled?: any,
   icon?: 'plus',
   children?: React.ReactNode
 }
@@ -23,18 +23,19 @@ interface Props {
 export default function CustomButton({ children, ...props }: Props) {
   return (
     <button
+      {...props}
       onClick={props.onClick}
       className={`custom-button ${props.className}`}
-      disabled={props.isLoading || props.isDisabled}
+      disabled={props.isloading || props.isdisabled}
     >
       <div className='custom-button-container'>
         <div className={classNames('custom-button-content', {
-          'loading': props.isLoading
+          'loading': props.isloading
         })}>
           {children}
           {props.icon ? Icon(props.icon) : null}
         </div>
-        { props.isLoading ? <RollingIcon className="rolling-btn active" /> : null }
+        { props.isloading ? <RollingIcon className="rolling-btn active" /> : null }
       </div>
     </button>
   )

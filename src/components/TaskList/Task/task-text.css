@@ -10,6 +10,10 @@
   float: right;
 }
 
+.task-text > a {
+  color: var(--purple);
+}
+
 @media screen and (max-width: 767px) {
   .task-text > img {
     max-width: 220px;

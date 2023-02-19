@@ -7,3 +7,7 @@ export interface IUpdateTodo {
   width?: number;
   height?: number;
 }
+
+export type IRemoveListenersHandle = {
+  removeListeners: () => void
+}

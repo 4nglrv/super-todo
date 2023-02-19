@@ -48,31 +48,18 @@ export default function TaskItem(props: Props) {
 		}
 	}, [isEdit, inputRef])
 
-  function RenderCheck() {
-		if (isLoading) return <RollingIcon className='update-todo-rolling' />
-		return <CheckIcon />
+  function RenderEditButton() {
+    let editBtn
+		if (!isEdit) {
+      editBtn = <TaskIcon />
+    } else if (isLoading) {
+      editBtn = <RollingIcon className='update-todo-rolling' />
+    } else {
+      editBtn = <CheckIcon />
+    }
+    return editBtn
 	}
 
-  function IsEdit() {
-		if (!isEdit) return <TaskIcon />
-		return RenderCheck()
-	}
-
-  function RenderEditTaskContent() {
-    return (
-      <div className='task-text__input-container'>
-        <textarea
-          disabled={isLoading}
-          className='task-text__input'
-          value={todoText}
-          onChange={(e) => setTodoText(e.target.value)}
-          onKeyDown={(e) => e.key === 'Escape' ? handleEditTodo() : ''} 
-          ref={inputRef}
-        />
-      </div>
-    )
-  }
-  
   function TaskButtons() {
 		return (
 			<div className='task-buttons'>
@@ -80,7 +67,7 @@ export default function TaskItem(props: Props) {
           onClick={() => handleEditTodo()}
           className='task-btn'
         >
-					{IsEdit()}
+					{ RenderEditButton() }
 				</button>
 
 				<button className='task-btn task-remove' onClick={() => handleDeleteTodo()}>
@@ -90,20 +77,32 @@ export default function TaskItem(props: Props) {
 		)
 	}
 
-  function RenderTaskContent() {
-    return (
-      <div className='task-content' onChange={() => handleSetCompleted()}>
-        <div className='task-content__checkbox'>
-          <input type='checkbox' defaultChecked={isCompleted} id={props.data.id} name={props.data.id} />
-        </div>
-        <label dangerouslySetInnerHTML={{ __html: todoText }} className='task-text' htmlFor={props.data.id} />
-      </div>
-    )
-  }
-
   function RenderTask() {
-    if (!isEdit) return RenderTaskContent()
-    return RenderEditTaskContent()
+    let task
+    if (!isEdit) {
+      task = (
+        <div className='task-content' onChange={() => handleSetCompleted()}>
+          <div className='task-content__checkbox'>
+            <input type='checkbox' defaultChecked={isCompleted} id={props.data.id} name={props.data.id} />
+          </div>
+          <label dangerouslySetInnerHTML={{ __html: todoText }} className='task-text' htmlFor={props.data.id} />
+        </div>
+      )
+    } else {
+      task = (
+        <div className='task-text__input-container'>
+          <textarea
+            disabled={isLoading}
+            className='task-text__input'
+            value={todoText}
+            onChange={(e) => setTodoText(e.target.value)}
+            onKeyDown={(e) => e.key === 'Escape' ? handleEditTodo() : ''} 
+            ref={inputRef}
+          />
+        </div>
+      )
+    }
+    return task
   }
 
   return (

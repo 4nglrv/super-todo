@@ -3,11 +3,13 @@ import LoaderIcon from '../Svg/Loader'
 import Task from './Task'
 import TaskCounter from './TaskCounter'
 import { useGetTodosQuery } from '../../redux'
-import { useCallback } from 'react'
+import { ElementRef, useCallback, useRef } from 'react'
 import { ITodoResponse } from '../../types/store/mockApi'
 
 const TaskList = () => {
 	const { data = [], isLoading } = useGetTodosQuery()
+  const taskRef = useRef<ElementRef<typeof Task>>(null)
+  const tasksRef = useRef<HTMLDivElement>(null)
 
 	const RenderTaskMessage = useCallback(() => {
 		return (
@@ -22,19 +24,17 @@ const TaskList = () => {
 	function renderTasks() {
 		if (data.length === 0) return RenderTaskMessage()
 		return data.map((todo: ITodoResponse) => {
-			return <Task key={todo.id} data={todo} />
+			return <Task key={todo.id} data={todo} ref={taskRef} tasksRef={tasksRef} />
 		})
   }
 
-	function stop(ev: Event) {
-		ev.stopPropagation()
-		ev.preventDefault()
-	}
-
 	return (
-		<div className='task-list' onDragOver={() => stop}>
+		<div 
+      className='task-list'
+      onMouseUp={() => taskRef.current?.removeListeners()}
+    >
 			<TaskCounter />
-			<div id='tasks' className='tasks'>
+			<div id='tasks' ref={tasksRef} className='tasks'>
 				{isLoading ? <LoaderIcon /> : renderTasks()}
 			</div>
 		</div>

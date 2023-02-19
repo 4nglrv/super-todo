@@ -29,7 +29,8 @@ function CreateTodo() {
           className="create-todo__button"
           icon="plus"
           onClick={() => handleAddTodo()}
-          isLoading={isLoading}
+          isloading={isLoading ? 1 : 0}
+          isdisabled={!window.navigator.onLine ? 1 : 0}
         >
           Создать
         </CustomButton>

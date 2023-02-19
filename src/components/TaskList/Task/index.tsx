@@ -1,14 +1,16 @@
 import './style.css'
 import './task-text.css'
-import { memo, MouseEvent, SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { forwardRef, memo, MouseEvent, RefObject, SyntheticEvent, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { ITodoResponse } from '../../../types/store/mockApi'
 import TaskItem from './Item'
 import classNames from 'classnames'
 import { useUpdateTodoMutation } from '../../../redux'
 import throttle from '../../../utils/throttle'
+import { IRemoveListenersHandle } from '../../../types/components/taskList'
 
 type Props = {
 	data: ITodoResponse
+  tasksRef: RefObject<HTMLDivElement>
 }
 
 interface IItitialPos {
@@ -25,29 +27,29 @@ interface IItitialSize {
 	height1: number
 }
 
-export default memo(function Task(props: Props) {
+const Task = forwardRef<IRemoveListenersHandle, Props>(({ data, tasksRef}, ref) => {
 	const [initialSize, setInitialSize] = useState<IItitialSize>({
-		width: props.data.width,
-		height: props.data.height,		
+		width: data.width,
+		height: data.height,		
     width1: 0,
 		height1: 0,
 	})
 	const maxBlockPosX = 5000
 	const maxBlockPosY = 5000
 	const [initialPos, setInitialPos] = useState<IItitialPos>({
-		x: props.data.x,
-		y: props.data.y,
+		x: data.x,
+		y: data.y,
 		x1: 0,
 		y1: 0,
 	})
 	const [updateTodo] = useUpdateTodoMutation()
-	const [isCompleted, setIsCompleted] = useState<boolean>(props.data.isCompleted)
+	const [isCompleted, setIsCompleted] = useState<boolean>(data.isCompleted)
 	const [isDeleted, setIsDeleted] = useState<boolean>(false)
 	const [isEdit, setIsEdit] = useState<boolean>(false)
 	const [isDrag, setIsDrag] = useState<boolean>(false)
+	const [isResize, setIsResize] = useState<boolean>(false)
 	const [event, setEvent] = useState<'mousemove' | 'touchmove'>('mousemove')
   const taskRef = useRef<HTMLDivElement>(null)
-	const taskListBlock = document.getElementById('tasks') as HTMLDivElement
 	const initialPosRef = useRef<IItitialPos>()
 	const initialSizeRef = useRef<IItitialSize>()
 
@@ -75,16 +77,16 @@ export default memo(function Task(props: Props) {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const dragTask = useCallback(
 		throttle((ev: MouseEvent & TouchEvent) => {
-			if (initialPosRef.current === undefined || taskListBlock === undefined) return
+			if (initialPosRef.current === undefined || tasksRef.current === null) return
 			let currPosX = 0
 			let currPosY = 0
 			const currClientX = ev.clientX || ev.targetTouches[0].clientX
 			const currClientY = ev.clientY || ev.targetTouches[0].clientY
 			const mouseInBlockPosX = Math.ceil(
-				currClientX + taskListBlock.scrollLeft - initialPosRef.current.x1 - taskListBlock.offsetLeft
+				currClientX + tasksRef.current.scrollLeft - initialPosRef.current.x1 - tasksRef.current.offsetLeft
 			)
 			const mouseInBlockPosY = Math.ceil(
-				currClientY + taskListBlock.scrollTop - initialPosRef.current.y1 - taskListBlock.offsetTop
+				currClientY + tasksRef.current.scrollTop - initialPosRef.current.y1 - tasksRef.current.offsetTop
 			)
 			const isEdgeBlockX = mouseInBlockPosX < 0 || mouseInBlockPosX > maxBlockPosX + 10
 			const isEdgeBlockY = mouseInBlockPosY < 0 || mouseInBlockPosY > maxBlockPosY + 10
@@ -101,7 +103,7 @@ export default memo(function Task(props: Props) {
 	)
 
 	const onStartDragHandler = (ev: any) => {
-		if (taskListBlock === undefined) return
+		if (tasksRef.current === null) return
 		let posX: number = 0
 		let posY: number = 0
 
@@ -118,43 +120,58 @@ export default memo(function Task(props: Props) {
 		}
 
 		setInitialPos((prev) => ({ ...prev, x1: posX, y1: posY }))
-		taskListBlock.addEventListener(event, dragTask)
+		tasksRef.current.addEventListener(event, dragTask)
 		setIsDrag(true)
 		console.log('ondown (add ev): ', event)
 	}
 
 	const onEndDragHandler = (ev?: SyntheticEvent<HTMLDivElement>) => {
-		if (taskListBlock === undefined) return
-		taskListBlock.removeEventListener(event, dragTask)
+		if (tasksRef.current === null || isDrag !== true) return
 		setIsDrag(false)
+		tasksRef.current.removeEventListener(event, dragTask)
 		console.log('onup (remove ev): ', event)
-		if (initialPos.x === props.data.x || initialPos.y === props.data.y) return
-		updateTodo({ id: props.data.id, x: initialPos.x, y: initialPos.y })
+		if (initialPos.x === data.x || initialPos.y === data.y) return
+		updateTodo({ id: data.id, x: initialPos.x, y: initialPos.y })
 	}
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const reziseTask = useCallback(throttle((ev: MouseEvent & TouchEvent) => {
-    if (initialSizeRef.current === undefined || taskRef.current === null) return
-    const width = ev.clientX - taskRef.current.offsetLeft - taskListBlock.scrollLeft - taskListBlock.offsetLeft
-    const height = ev.clientY - taskRef.current.offsetTop - taskListBlock.scrollTop - taskListBlock.offsetTop
+    if (initialSizeRef.current === undefined || taskRef.current === null || tasksRef.current === null) return
+    const width = ev.clientX - taskRef.current.offsetLeft - tasksRef.current.scrollLeft - tasksRef.current.offsetLeft
+    const height = ev.clientY - taskRef.current.offsetTop - tasksRef.current.scrollTop - tasksRef.current.offsetTop
     if (width > 440 || width < 220) return
     setInitialSize((prev) => ({ ...prev, width: width, height: height }))
   }, 25), [])
 
 	function onResizeHandler(ev: any) {
-		taskListBlock.addEventListener(event, reziseTask)
+    if (tasksRef.current === null) return
+    tasksRef.current.addEventListener(event, reziseTask)
+    setIsResize(true)
     document.body.style.cursor = 'se-resize'
     setInitialSize((prev) => ({ ...prev, width1: prev.width, height1: prev.height }))
     console.log('ondown (add ev): resize')
 	}
 
-	function onEndResizeHandler(ev: MouseEvent) {
-		taskListBlock.removeEventListener(event, reziseTask)
+	function onEndResizeHandler(ev?: MouseEvent) {
+    if (isResize !== true || tasksRef.current === null) return
+    tasksRef.current.removeEventListener(event, reziseTask)
+    setIsResize(false)
     document.body.style.removeProperty("cursor")
     console.log('onup (remove ev): resize')
-    updateTodo({ id: props.data.id, width: initialSize.width, height: initialSize.height })
+    updateTodo({ id: data.id, width: initialSize.width, height: initialSize.height })
 	}
 
+  function removeListenersHandler() {
+    onEndResizeHandler()
+    onEndDragHandler()
+  }
+
+  useImperativeHandle(ref, () => ({
+    removeListeners() {
+      removeListenersHandler()
+    }
+  }))
+  
 	return (
 		<div
 			ref={taskRef}
@@ -173,8 +190,6 @@ export default memo(function Task(props: Props) {
 			<div
 				id='task__draggable-block'
 				className='task__draggable-block'
-        onTouchEnd={() => onEndDragHandler()}
-        onMouseUp={() => onEndDragHandler()}
 				onTouchStart={(ev) => onStartDragHandler(ev as any)}
 				onMouseDown={(ev) => onStartDragHandler(ev as any)}
 			/>
@@ -183,7 +198,7 @@ export default memo(function Task(props: Props) {
 					onChangeComplete={(val) => onChangeCompleteHandler(val)}
 					onChangeDelete={(val) => onChangeDeleteHandler(val)}
 					onChangeEdit={(val) => onChangeEditHandler(val)}
-					data={props.data}
+					data={data}
 				/>
 			</div>
       {
@@ -191,10 +206,11 @@ export default memo(function Task(props: Props) {
           <div
             className='task__resize-block'
             onMouseDown={(ev) => onResizeHandler(ev)}
-            onMouseUp={(ev) => onEndResizeHandler(ev)}
           />
         ) : null
       }
 		</div>
 	)
 })
+
+export default memo(Task)

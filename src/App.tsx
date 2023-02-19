@@ -15,7 +15,7 @@ function App() {
           </h1>
         </header>
 
-        <main>
+        <main className='main'>
           <CreateTodo />
           <TaskList />
         </main>
