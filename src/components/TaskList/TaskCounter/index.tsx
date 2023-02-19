@@ -1,18 +1,19 @@
 import './style.css'
 import { useEffect, useState } from 'react'
+
 import { useGetTodosQuery } from '../../../redux'
 
 export default function TaskCounter() {
   const { data = [] } = useGetTodosQuery()
-  const [completedCount, setCompletedCount] = useState<number>(0)
+  const [ completedCount, setCompletedCount ] = useState<number>(0)
 
   useEffect(() => {
     let count = 0
     data.forEach(todo => {
-      if (todo.isCompleted) count++
+      if (todo.isCompleted) count += 1
     })
     setCompletedCount(count)
-  }, [data])
+  }, [ data ])
 
   return (
     <div className="task-counter">
@@ -25,9 +26,9 @@ export default function TaskCounter() {
         Завершено
         <span className="task-amount">
          {
-          completedCount > 0 
-            ? `${completedCount} из ${data.length}`
-            : 0
+           completedCount > 0 
+             ? `${completedCount} из ${data.length}`
+             : 0
          }
         </span>
       </div>

@@ -1,5 +1,5 @@
 import './style.css'
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react'
 
 export default function CustomInput(props: InputHTMLAttributes<HTMLInputElement>) {
   return (

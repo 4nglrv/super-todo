@@ -1,19 +1,20 @@
 import './style.css'
 import { useState } from 'react'
+
+import { useAddTodoMutation } from '../../redux'
 import CustomButton from '../CustomButton'
 import CustomTextArea from '../CustomTextArea'
-import { useAddTodoMutation } from '../../redux'
 
 function CreateTodo() {
-  const [addTodo, { isLoading }] = useAddTodoMutation()
-  const [text, setText] = useState<string>('')
+  const [ addTodo, { isLoading } ] = useAddTodoMutation()
+  const [ text, setText ] = useState<string>('')
 
   const addTodoHandler = async () => {
     if (text.length === 0 || text.length <= 3) 
       return alert('Необходимо ввести больше 3 символов')
     
-    await addTodo({text: text})
-    setText('')
+    await addTodo({ text: text })
+    return setText('')
   }
 
   return (
@@ -29,13 +30,12 @@ function CreateTodo() {
           className="create-todo__button"
           icon="plus"
           onClick={() => addTodoHandler()}
-          isloading={isLoading ? 1 : 0}
-          isdisabled={!window.navigator.onLine ? 1 : 0}
+          isloading={isLoading}
+          isdisabled={!window.navigator.onLine}
         >
           Создать
         </CustomButton>
       </div>
-
       
     </div>
   )

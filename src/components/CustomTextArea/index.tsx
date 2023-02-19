@@ -1,5 +1,5 @@
 import './style.css'
-import { TextareaHTMLAttributes } from 'react';
+import { TextareaHTMLAttributes } from 'react'
 
 export default function CustomTextArea(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (

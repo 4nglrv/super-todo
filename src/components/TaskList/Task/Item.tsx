@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+
 import { useDeleteTodoMutation, useUpdateTodoMutation } from '../../../redux'
 import { ITodoResponse } from '../../../types/store/mockApi'
 import CheckIcon from '../../Svg/Check'
@@ -15,42 +16,41 @@ interface Props {
 
 export default function TaskItem(props: Props) {
   const inputRef = useRef<HTMLTextAreaElement>(null)
-  const [updateTodo, { isLoading }] = useUpdateTodoMutation()
-  const [deleteTodo] = useDeleteTodoMutation()
-  const [isCompleted, setIsCompleted] = useState<boolean>(props.data.isCompleted)
-  const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [todoText, setTodoText] = useState<string>(props.data.text)
-
+  const [ updateTodo, { isLoading } ] = useUpdateTodoMutation()
+  const [ deleteTodo ] = useDeleteTodoMutation()
+  const [ isCompleted, setIsCompleted ] = useState<boolean>(props.data.isCompleted)
+  const [ isEdit, setIsEdit ] = useState<boolean>(false)
+  const [ todoText, setTodoText ] = useState<string>(props.data.text)
 
   async function setCompletedHandler() {
-		setIsCompleted(!isCompleted)
+    setIsCompleted(!isCompleted)
     props.onChangeComplete(!isCompleted)
-		await updateTodo({ id: props.data.id, isCompleted: !isCompleted }).unwrap()
-	}
+    await updateTodo({ id: props.data.id, isCompleted: !isCompleted }).unwrap()
+  }
 
   const deleteTodoHandler = async () => {
     props.onChangeDelete(true)
-		await deleteTodo(props.data.id).unwrap()
-	}
+    await deleteTodo(props.data.id).unwrap()
+  }
 
   const editTodoHandler = async () => {
     if (isLoading) return
-		if (isEdit && props.data.text !== todoText) {
-			await updateTodo({ id: props.data.id, text: todoText }).unwrap()
-		}
-		setIsEdit(!isEdit)
+    if (isEdit && props.data.text !== todoText) {
+      await updateTodo({ id: props.data.id, text: todoText }).unwrap()
+    }
+    setIsEdit(!isEdit)
     props.onChangeEdit(!isEdit)
-	}
+  }
 
   useEffect(() => {
-		if (isEdit && inputRef.current !== null) {
-			inputRef.current.focus()
-		}
-	}, [isEdit, inputRef])
+    if (isEdit && inputRef.current !== null) {
+      inputRef.current.focus()
+    }
+  }, [ isEdit, inputRef ])
 
   function RenderEditButton() {
     let editBtn
-		if (!isEdit) {
+    if (!isEdit) {
       editBtn = <TaskIcon />
     } else if (isLoading) {
       editBtn = <RollingIcon className='update-todo-rolling' />
@@ -58,15 +58,15 @@ export default function TaskItem(props: Props) {
       editBtn = <CheckIcon />
     }
     return editBtn
-	}
+  }
 
   function TaskButtons() {
-		return (
-			<div className='task-buttons'>
-				<button 
-          onClick={() => editTodoHandler()}
-          className='task-btn'
-        >
+    return (
+        <div className='task-buttons'>
+          <button 
+            onClick={() => editTodoHandler()}
+            className='task-btn'
+          >
 					{ RenderEditButton() }
 				</button>
 
@@ -74,8 +74,8 @@ export default function TaskItem(props: Props) {
 					<RemoveIcon />
 				</button>
 			</div>
-		)
-	}
+    )
+  }
 
   function RenderTask() {
     let task

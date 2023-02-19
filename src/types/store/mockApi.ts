@@ -1,5 +1,4 @@
 
-
 export interface ITodoResponse {
   createdAt: string;
   text: string;

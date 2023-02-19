@@ -1,6 +1,6 @@
-import './App.css';
-import CreateTodo from './components/CreateTodo';
-import TaskList from './components/TaskList';
+import './App.css'
+import CreateTodo from './components/CreateTodo'
+import TaskList from './components/TaskList'
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
 
       </div>
     </div>
-  );
+  )
 }
 
 export default App

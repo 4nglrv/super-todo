@@ -1,5 +1,5 @@
 export default function throttle(func: (...args: any) => void, ms: number) {
-  let timeout = false;
+  let timeout = false
   return (...args: any) => {
     if (timeout) return
     func(...args)

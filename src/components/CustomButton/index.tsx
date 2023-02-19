@@ -1,7 +1,8 @@
 import './style.css'
-import RollingIcon from '../Svg/Rolling'
-import PlusIcon from '../Svg/Plus'
 import classNames from 'classnames'
+
+import PlusIcon from '../Svg/Plus'
+import RollingIcon from '../Svg/Rolling'
 
 function Icon(icon: 'plus') {
   switch (icon) {
@@ -14,8 +15,8 @@ function Icon(icon: 'plus') {
 interface Props {
   onClick?: () => void,
   className?: string,
-  isloading?: any,
-  isdisabled?: any,
+  isloading?: boolean,
+  isdisabled?: boolean,
   icon?: 'plus',
   children?: React.ReactNode
 }
