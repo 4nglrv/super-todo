@@ -32,6 +32,7 @@ const TaskList = () => {
 		<div 
       className='task-list'
       onMouseUp={() => taskRef.current?.removeListeners()}
+      onTouchEnd={() => taskRef.current?.removeListeners()}
     >
 			<TaskCounter />
 			<div id='tasks' ref={tasksRef} className='tasks'>
