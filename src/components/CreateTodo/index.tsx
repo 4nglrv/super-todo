@@ -8,7 +8,7 @@ function CreateTodo() {
   const [addTodo, { isLoading }] = useAddTodoMutation()
   const [text, setText] = useState<string>('')
 
-  const handleAddTodo = async () => {
+  const addTodoHandler = async () => {
     if (text.length === 0 || text.length <= 3) 
       return alert('Необходимо ввести больше 3 символов')
     
@@ -28,7 +28,7 @@ function CreateTodo() {
         <CustomButton 
           className="create-todo__button"
           icon="plus"
-          onClick={() => handleAddTodo()}
+          onClick={() => addTodoHandler()}
           isloading={isLoading ? 1 : 0}
           isdisabled={!window.navigator.onLine ? 1 : 0}
         >

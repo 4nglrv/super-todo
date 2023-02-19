@@ -22,18 +22,18 @@ export default function TaskItem(props: Props) {
   const [todoText, setTodoText] = useState<string>(props.data.text)
 
 
-  async function handleSetCompleted() {
+  async function setCompletedHandler() {
 		setIsCompleted(!isCompleted)
     props.onChangeComplete(!isCompleted)
 		await updateTodo({ id: props.data.id, isCompleted: !isCompleted }).unwrap()
 	}
 
-  const handleDeleteTodo = async () => {
+  const deleteTodoHandler = async () => {
     props.onChangeDelete(true)
 		await deleteTodo(props.data.id).unwrap()
 	}
 
-  const handleEditTodo = async () => {
+  const editTodoHandler = async () => {
     if (isLoading) return
 		if (isEdit && props.data.text !== todoText) {
 			await updateTodo({ id: props.data.id, text: todoText }).unwrap()
@@ -64,13 +64,13 @@ export default function TaskItem(props: Props) {
 		return (
 			<div className='task-buttons'>
 				<button 
-          onClick={() => handleEditTodo()}
+          onClick={() => editTodoHandler()}
           className='task-btn'
         >
 					{ RenderEditButton() }
 				</button>
 
-				<button className='task-btn task-remove' onClick={() => handleDeleteTodo()}>
+				<button className='task-btn task-remove' onClick={() => deleteTodoHandler()}>
 					<RemoveIcon />
 				</button>
 			</div>
@@ -81,7 +81,7 @@ export default function TaskItem(props: Props) {
     let task
     if (!isEdit) {
       task = (
-        <div className='task-content' onChange={() => handleSetCompleted()}>
+        <div className='task-content' onChange={() => setCompletedHandler()}>
           <div className='task-content__checkbox'>
             <input type='checkbox' defaultChecked={isCompleted} id={props.data.id} name={props.data.id} />
           </div>
@@ -96,7 +96,7 @@ export default function TaskItem(props: Props) {
             className='task-text__input'
             value={todoText}
             onChange={(e) => setTodoText(e.target.value)}
-            onKeyDown={(e) => e.key === 'Escape' ? handleEditTodo() : ''} 
+            onKeyDown={(e) => e.key === 'Escape' ? editTodoHandler() : ''} 
             ref={inputRef}
           />
         </div>

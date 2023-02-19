@@ -3,6 +3,27 @@
   margin-bottom: 1em;
 }
 
+.task-text > hr {
+  border-top: 1px solid var(--gray-400);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  margin: 10px 0;
+}
+
+.task-text > div > input:checked ~ p {
+  color: var(--gray-300);
+  text-decoration-line: line-through;
+}
+
+.task-text > div > p {
+  display: inline;
+}
+
+.task-text > div > input[type="checkbox"] {
+  margin-right: 8px;
+}
+
 .task-text > img {
   max-width: 320px;
   width: 100%;
