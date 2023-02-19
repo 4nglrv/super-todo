@@ -1,0 +1,91 @@
+{
+  "env": {
+      "browser": true,
+      "es6": true,
+      "es2017": true
+  },
+
+  "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:import/recommended",
+      "plugin:import/typescript"
+  ],
+
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+      "project": "tsconfig.json",
+      "tsconfigRootDir": ".",
+      "ignorePatterns": [".eslintrc.js", "config-overrides.js"]
+  },
+
+  "plugins": ["@typescript-eslint", "import"],
+
+  "rules": {
+      "array-bracket-spacing": ["warn", "always"],
+      "array-callback-return": "warn",
+      "arrow-parens": "off",
+      "class-methods-use-this": 0,
+      "consistent-return": "warn",
+      "func-names": ["error", "never"],
+      "indent": ["warn", 2, { "ignoredNodes": ["JSXElement"], "SwitchCase": 1 }],
+      "jsx-a11y/label-has-associated-control": 0,
+      "linebreak-style": "off",
+      "max-classes-per-file": ["error", 100],
+      "no-console": "off",
+      "no-implicit-coercion": "off",
+      "no-mixed-operators": "error",
+      "no-multiple-empty-lines": ["warn", { "max": 1, "maxBOF": 1, "maxEOF": 10}],
+      "no-plusplus": "warn",
+      "no-shadow": "warn",
+      "no-underscore-dangle": 0,
+      "object-curly-spacing": ["warn", "always"],
+      "padded-blocks": 0,
+      "prefer-promise-reject-errors": "warn",
+      "quotes": ["warn", "single", { "allowTemplateLiterals": false }],
+      "semi": ["warn", "never"],
+      "space-in-parens": ["warn", "never"],
+      "no-floating-promises": 0,
+      "no-unsafe-assignment": 0,
+      "no-unsafe-member-access": 0,
+      "no-inferrable-types": 0,
+      "restrict-template-expressions": 0,
+      "prefer-const": "warn",
+      "no-constant-condition": 0,
+      "no-empty-function": "warn",
+      "@typescript-eslint/explicit-module-boundary-types": 0,
+      "@typescript-eslint/no-empty-function": "warn",
+      "@typescript-eslint/ban-types": "warn",
+      "@typescript-eslint/ban-ts-comment": "warn",
+      "import/no-named-as-default": "off",
+      "import/no-named-as-default-member": "off",
+      "import/order": [
+          "warn",
+          {
+              "groups": ["builtin", "external", "internal"],
+              "pathGroups": [
+                  {
+                      "pattern": "react",
+                      "group": "external",
+                      "position": "before"
+                  }
+              ],
+              "pathGroupsExcludedImportTypes": ["react"],
+              "newlines-between": "always",
+              "alphabetize": {
+                  "order": "asc",
+                  "caseInsensitive": true
+              }
+          }
+      ]
+  },
+  "settings": {
+      "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+      "import/resolver": {
+          "typescript": {
+              "alwaysTryTypes": true
+          }
+      }
+  }
+}
