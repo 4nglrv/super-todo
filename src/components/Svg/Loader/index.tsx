@@ -1,6 +1,6 @@
 import './style.css'
 
-export default function LoaderIcon() {
+const LoaderIcon = () => {
   return (
     <svg className="loader" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
       <circle cx="50" cy="50" r="0" fill="none" stroke="#8284fa" strokeWidth="2">
@@ -14,3 +14,5 @@ export default function LoaderIcon() {
     </svg>
   )
 }
+
+export default LoaderIcon

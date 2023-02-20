@@ -2,7 +2,7 @@ import './App.css'
 import CreateTodo from './components/CreateTodo'
 import TaskList from './components/TaskList'
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <div className="container">

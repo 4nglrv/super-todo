@@ -1,4 +1,4 @@
-export default function RemoveIcon() {
+const RemoveIcon = () => {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M14.2021 9.98548H12.8716V15.5073H14.2021V9.98548Z" />
@@ -7,3 +7,5 @@ export default function RemoveIcon() {
     </svg>
   )
 }
+
+export default RemoveIcon

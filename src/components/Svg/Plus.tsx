@@ -1,4 +1,4 @@
-export default function PlusIcon() {
+const PlusIcon = () => {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_2102_11)">
@@ -13,3 +13,5 @@ export default function PlusIcon() {
     </svg>
   )
 }
+
+export default PlusIcon

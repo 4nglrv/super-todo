@@ -21,7 +21,7 @@ interface Props {
   children?: React.ReactNode
 }
 
-export default function CustomButton({ children, isloading, isdisabled, ...props }: Props) {
+const CustomButton = ({ children, isloading, isdisabled, ...props }: Props) => {
   return (
     <button
       {...props}
@@ -41,3 +41,5 @@ export default function CustomButton({ children, isloading, isdisabled, ...props
     </button>
   )
 }
+
+export default CustomButton

@@ -5,7 +5,7 @@ import { useAddTodoMutation } from '../../redux'
 import CustomButton from '../CustomButton'
 import CustomTextArea from '../CustomTextArea'
 
-function CreateTodo() {
+const CreateTodo = () => {
   const [ addTodo, { isLoading } ] = useAddTodoMutation()
   const [ text, setText ] = useState<string>('')
 

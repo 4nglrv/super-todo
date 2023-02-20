@@ -1,4 +1,4 @@
-export default function TaskIcon() {
+const TaskIcon = () => {
   return (
     <svg className="task-edit" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_2133_108)">
@@ -13,3 +13,5 @@ export default function TaskIcon() {
     </svg>
   )
 }
+
+export default TaskIcon

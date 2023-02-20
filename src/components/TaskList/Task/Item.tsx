@@ -14,7 +14,7 @@ interface Props {
   data: ITodoResponse
 }
 
-export default function TaskItem(props: Props) {
+const TaskItem = (props: Props) => {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [ updateTodo, { isLoading } ] = useUpdateTodoMutation()
   const [ deleteTodo ] = useDeleteTodoMutation()
@@ -111,4 +111,6 @@ export default function TaskItem(props: Props) {
       { TaskButtons() }
     </>
   )
-} 
+}
+
+export default TaskItem
