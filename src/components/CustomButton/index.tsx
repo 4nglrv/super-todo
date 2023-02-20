@@ -21,22 +21,22 @@ interface Props {
   children?: React.ReactNode
 }
 
-export default function CustomButton({ children, ...props }: Props) {
+export default function CustomButton({ children, isloading, isdisabled, ...props }: Props) {
   return (
     <button
       {...props}
       onClick={props.onClick}
       className={`custom-button ${props.className}`}
-      disabled={props.isloading || props.isdisabled}
+      disabled={isloading || isdisabled}
     >
       <div className='custom-button-container'>
         <div className={classNames('custom-button-content', {
-          'loading': props.isloading
+          'loading': isloading
         })}>
           {children}
           {props.icon ? Icon(props.icon) : null}
         </div>
-        { props.isloading ? <RollingIcon className="rolling-btn active" /> : null }
+        { isloading ? <RollingIcon className="rolling-btn active" /> : null }
       </div>
     </button>
   )
