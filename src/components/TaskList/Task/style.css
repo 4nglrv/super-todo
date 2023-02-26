@@ -19,6 +19,10 @@
   overflow: hidden;
   z-index: 3;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.175);
+  /* disable text select  */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .task.is-dragging {

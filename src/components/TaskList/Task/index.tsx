@@ -106,9 +106,9 @@ const Task = forwardRef<IRemoveListenersHandle, Props>(({ data, tasksRef }, ref)
         onEndDragHandler()
       }
       currPosX = mouseInBlockPosX < 0 ? 0 : mouseInBlockPosX > maxBlockPosX ? maxBlockPosX : mouseInBlockPosX
-      currPosY = mouseInBlockPosY < 0 ? 0 : mouseInBlockPosY > maxBlockPosX ? maxBlockPosX : mouseInBlockPosY
+      currPosY = mouseInBlockPosY < 0 ? 0 : mouseInBlockPosY > maxBlockPosY ? maxBlockPosY : mouseInBlockPosY
       setInitialPos((prev) => ({ ...prev, x: currPosX, y: currPosY }))
-    }, 25),
+    }, 15),
     []
   )
 
@@ -154,7 +154,7 @@ const Task = forwardRef<IRemoveListenersHandle, Props>(({ data, tasksRef }, ref)
         ev.clientY - taskRef.current.offsetTop - tasksRef.current.scrollTop - tasksRef.current.offsetTop
       if (width > 440 || width < 220) return
       setInitialSize((prev) => ({ ...prev, width: width, height: height }))
-    }, 25),
+    }, 15),
     []
   )
 
