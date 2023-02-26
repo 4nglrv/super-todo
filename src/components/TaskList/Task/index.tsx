@@ -149,9 +149,9 @@ const Task = forwardRef<IRemoveListenersHandle, Props>(({ data, tasksRef }, ref)
       if (initialSizeRef.current === undefined || taskRef.current === null || tasksRef.current === null)
         return
       const width =
-        ev.clientX - taskRef.current.offsetLeft - tasksRef.current.scrollLeft - tasksRef.current.offsetLeft
+        ev.clientX - taskRef.current.offsetLeft + tasksRef.current.scrollLeft - tasksRef.current.offsetLeft
       const height =
-        ev.clientY - taskRef.current.offsetTop - tasksRef.current.scrollTop - tasksRef.current.offsetTop
+        ev.clientY - taskRef.current.offsetTop + tasksRef.current.scrollTop - tasksRef.current.offsetTop
       if (width > 440 || width < 220) return
       setInitialSize((prev) => ({ ...prev, width: width, height: height }))
     }, 15),

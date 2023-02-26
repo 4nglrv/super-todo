@@ -14,11 +14,11 @@ const TaskList = () => {
 
   const RenderTaskMessage = useCallback(() => {
     return (
-			<div className='create-task-message'>
-				<img className='clipboard-img' width='56' height='56' src='/assets/Clipboard.png' alt='Clipboard' />
-				<div className='create-task-message__first'>У Вас еще нет созданных задач</div>
-				<div className='create-task-message__second'>Создавайте задачи и организуйте свои дела</div>
-			</div>
+      <div className='create-task-message'>
+        <img className='clipboard-img' width='56' height='56' src='/assets/Clipboard.png' alt='Clipboard' />
+        <div className='create-task-message__first'>У Вас еще нет созданных задач</div>
+        <div className='create-task-message__second'>Создавайте задачи и организуйте свои дела</div>
+      </div>
     )
   }, [])
 
@@ -35,11 +35,11 @@ const TaskList = () => {
       onMouseUp={() => taskRef.current?.removeListeners()}
       onTouchEnd={() => taskRef.current?.removeListeners()}
     >
-			<TaskCounter />
-			<div id='tasks' ref={tasksRef} className='tasks'>
-				{isLoading ? <LoaderIcon /> : renderTasks()}
-			</div>
-		</div>
+      <TaskCounter />
+      <div id='tasks' ref={tasksRef} className='tasks'>
+        {isLoading ? <LoaderIcon /> : renderTasks()}
+      </div>
+    </div>
   )
 }
 
